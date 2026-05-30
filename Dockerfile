@@ -1,28 +1,33 @@
 # ==========================================
 # STAGE 1: Build the React Application
 # ==========================================
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Install dependencies first (for caching)
+# Copy package.json and package-lock.json first to leverage Docker cache
 COPY package*.json ./
+
+# Install all dependencies (including devDependencies like Vite and Tailwind)
 RUN npm install
 
-# Copy the rest of the code and build
+# Copy the rest of your source code
 COPY . .
-RUN npm run build 
-# Note: If you use Create React App instead of Vite, change 'build' to whatever your build script is.
+
+# Build the project for production (Vite outputs to the /dist folder)
+RUN npm run build
 
 # ==========================================
 # STAGE 2: Serve with Nginx
 # ==========================================
 FROM nginx:alpine
 
-# Copy the built static files from Stage 1 into Nginx
-# (Change /app/dist to /app/build if using Create React App instead of Vite)
+# Copy the compiled static files from the builder stage into Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Nginx naturally runs on port 80
+# Expose port 80 to the outside world
 EXPOSE 80
 
+# Start Nginx and keep it running in the foreground
 CMD ["nginx", "-g", "daemon off;"]
