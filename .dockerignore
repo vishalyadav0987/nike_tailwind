@@ -1,0 +1,50 @@
+# =========================
+# Dependencies & Logs
+# =========================
+node_modules/
+npm-debug.log
+npm-debug.log.*
+yarn-error.log
+yarn-debug.log*
+
+# =========================
+# Build Outputs
+# =========================
+# We ignore local build folders because the Docker container 
+# should compile a fresh version from scratch.
+dist/
+build/
+.next/
+out/
+
+# =========================
+# Secrets & Environment
+# =========================
+# CRITICAL: Never let local .env files slip into a Docker image!
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# =========================
+# Git
+# =========================
+.git
+.gitignore
+
+# =========================
+# IDEs & OS Files
+# =========================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# =========================
+# Docker
+# =========================
+# Prevents infinite loops or context bloating
+Dockerfile
+.dockerignore
+docker-compose.yml
