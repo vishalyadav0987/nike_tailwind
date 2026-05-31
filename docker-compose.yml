@@ -7,7 +7,7 @@ services:
       - DEPLOYMENT_ID=${DEPLOYMENT_ID}
     labels:
       - traefik.enable=true
-      - 'traefik.docker.network=ephemeral-orchestrator_default'
+      - traefik.docker.network=ephemeral-orchestrator_default
       - traefik.http.routers.${DEPLOYMENT_ID}.rule=Host(`${DEPLOYMENT_ID}.localhost`)
       - traefik.http.services.${DEPLOYMENT_ID}.loadbalancer.server.port=3000
     networks:
