@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    container_name: ${DEPLOYMENT_ID}-frontend
+    environment:
+      - DEPLOYMENT_ID=${DEPLOYMENT_ID}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${DEPLOYMENT_ID}.rule=Host(`${DEPLOYMENT_ID}.localhost`)
+      - traefik.http.services.${DEPLOYMENT_ID}.loadbalancer.server.port=3000
+    networks:
+      - orchestrator-net
+networks:
+  orchestrator-net:
+    external: true
+    name: ephemeral-orchestrator_default
